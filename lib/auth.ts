@@ -80,8 +80,6 @@ export const authOptions: NextAuthOptions = {
         employment_status: user.employment_status,
         date_employed: user.date_employed,
         salary: user.salary,
-        vacation_leave: user.vacation_leave,
-        sick_leave: user.sick_leave,
       };
     },
     async session({ token, session }) {
