@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Address {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  street      String
+  barangay    String
+  city        String
+  province    String
+  postal_code String
+}
+
+model ClockTime {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  employee_id String    @db.ObjectId
+  employee    Employee  @relation(fields: [employee_id], references: [id])
+  clockIn     DateTime?
+  clockOut    DateTime?
+  createdAt   DateTime  @default(now())
+}
+
+model Department {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+
+  employee Employee[]
+}
+
+model Employee {
+  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  id_number         String    @unique
+  username          String?   @unique
+  password          String
+  role              Role      @default(User)
+  first_name        String
+  last_name         String
+  middle_name       String?
+  suffix            String?
+  email             String    @unique
+  contact_number    String?
+  gender            String?
+  date_of_birth     String?
+  employment_status String?
+  date_employed     DateTime? @default(now())
+  salary            Int?
+  leave             Leave[]
+
+  department    Department? @relation(fields: [department_id], references: [id])
+  department_id String?     @db.ObjectId
+  clock_times   ClockTime[]
+  schedule      Schedule[]
+}
+
+model Leave {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  employee_id    String?   @db.ObjectId
+  type           String
+  requested_date DateTime? @default(now())
+  status         String?
+
+  employee Employee? @relation(fields: [employee_id], references: [id])
+
+  @@map("leaves")
+}
+
+model Schedule {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  start_time  String
+  end_time    String
+  day         String
+  employee_id String   @db.ObjectId
+  employee    Employee @relation(fields: [employee_id], references: [id])
+}
+
+enum Role {
+  User
+  Admin
+}
