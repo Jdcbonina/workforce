@@ -246,8 +246,8 @@ const ScheduleUpdate = ({ id, days, schedule }) => {
                 <AlertDialogHeader>
                   <AlertDialogTitle>Clear Schedule</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to clear this employee's schedule?
-                    This action cannot be undone.
+                    Are you sure you want to clear this employee&apos;s
+                    schedule? This action cannot be undone.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
